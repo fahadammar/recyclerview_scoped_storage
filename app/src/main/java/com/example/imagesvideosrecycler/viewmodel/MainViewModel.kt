@@ -3,6 +3,7 @@ package com.example.imagesvideosrecycler.viewmodel
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.imagesvideosrecycler.model.ImagesRepository
 import kotlinx.coroutines.*
 
@@ -25,7 +26,8 @@ class MainViewModel(private val application: Application) : AndroidViewModel(app
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     fun getImages() {
-        uiScope.launch {
+        // viewModeScope means less boilerplate code
+        viewModelScope.launch {
             getImagesFromRepository()
             Log.d(TAG, "getImages: Images List -> $imagesArrayList")
         }

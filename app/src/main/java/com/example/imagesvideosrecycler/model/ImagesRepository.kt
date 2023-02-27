@@ -54,7 +54,7 @@ class ImagesRepository {
          * */
         cursor?.use {
             val idColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-            
+
             while (it.moveToNext()) {
                 val id = it.getLong(idColumn)
 
