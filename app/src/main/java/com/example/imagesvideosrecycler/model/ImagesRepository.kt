@@ -3,6 +3,7 @@ package com.example.imagesvideosrecycler.model
 import android.content.ContentUris
 import android.content.Context
 import android.provider.MediaStore
+import android.util.Log
 
 
 class ImagesRepository {
@@ -29,7 +30,7 @@ class ImagesRepository {
 
     private val imagePaths = ArrayList<String>()
 
-    fun getImages(context: Context): ArrayList<String>? {
+    suspend fun getImages(context: Context): ArrayList<String>? {
         /**
          * contentResolver.query() is a method that allows you to perform a query on a ContentProvider, such as the MediaStore ContentProvider in this case.
          * The contentResolver.query() method returns a Cursor object that allows us to iterate over the results of the query.
@@ -53,11 +54,9 @@ class ImagesRepository {
          * */
         cursor?.use {
             val idColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-            val nameColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
-
+            
             while (it.moveToNext()) {
                 val id = it.getLong(idColumn)
-                val name = it.getString(nameColumn)
 
                 val contentUri = ContentUris.withAppendedId(queryUri, id)
                 val path = contentUri.toString()
