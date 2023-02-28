@@ -35,7 +35,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setRecyclerView(viewBinding: ActivityMainBinding, viewModel: MainViewModel) {
         Log.d(TAG, "setRecyclerView: Images ArrayList -> ${viewModel.getImages()}")
-        viewBinding.imageRecyclerView.layoutManager = GridLayoutManager(this,2)
+        val layoutManager = GridLayoutManager(this,2)
+        viewBinding.imageRecyclerView.layoutManager = layoutManager
         val adapter = ImageAdapter(this, viewModel.getImages())
         viewBinding.imageRecyclerView.adapter = adapter
     }
