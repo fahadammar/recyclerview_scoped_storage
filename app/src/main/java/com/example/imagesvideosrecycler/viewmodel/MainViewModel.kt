@@ -10,31 +10,21 @@ import kotlinx.coroutines.*
 class MainViewModel(private val application: Application) : AndroidViewModel(application) {
     private val TAG = MainViewModel::class.java.toString()
     private val imageRepositoryInstance = ImagesRepository()
-    private var imagesArrayList = ArrayList<String>()
+    var imagesArrayList = ArrayList<String>()
 
-    /**
-     * This is the job for all coroutines started by this ViewModel.
-     * Cancelling this job will cancel all coroutines started by this ViewModel.
-     */
-    private val viewModelJob = SupervisorJob()
-
-    /**
-     * This is the main scope for all coroutines launched by MainViewModel.
-     * Since we pass viewModelJob, you can cancel all coroutines
-     * launched by uiScope by calling viewModelJob.cancel()
-     */
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
-    fun getImages() {
+    fun getImages() : ArrayList<String> {
         // viewModeScope means less boilerplate code
-        viewModelScope.launch {
-            getImagesFromRepository()
-            Log.d(TAG, "getImages: Images List -> $imagesArrayList")
-        }
+        getImagesFromRepository()
+        Log.d(TAG, "getImages: Images List -> $imagesArrayList")
+        return imagesArrayList
     }
 
-    private suspend fun getImagesFromRepository() = withContext(Dispatchers.IO) {
-        val imagesList = imageRepositoryInstance.getImages(application)
-        if (imagesList != null) imagesArrayList = imagesList
+    private fun getImagesFromRepository() {
+            val imagesList = imageRepositoryInstance.getImages(application)
+            if (imagesList != null) {
+                for (image in imagesList) {
+                    imagesArrayList.add(image)
+                }
+            }
     }
 }

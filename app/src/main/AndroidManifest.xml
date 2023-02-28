@@ -5,6 +5,9 @@
         you'll need to have the READ_EXTERNAL_STORAGE permission in your app's manifest file to use the MediaStore API.
     -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 
     <application
         android:allowBackup="true"

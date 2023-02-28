@@ -7,6 +7,8 @@ import android.util.Log
 
 
 class ImagesRepository {
+    val TAG = ImagesRepository::class.java.toString()
+
     /**
      * MediaStore.Images.Media.DATE_TAKEN is a constant that represents the column name for the date and time when an image was taken or created.
      * This column is available in the MediaStore.Images.Media class and is used to sort and query images based on their capture time.
@@ -26,11 +28,11 @@ class ImagesRepository {
      * This column is available in the MediaStore.Images.Media class and is used to sort and query images based on their capture time.
      *  queryUri variable contains a Uri that points to the internal storage of the device where the images are stored.
      * */
-    private val queryUri = MediaStore.Images.Media.INTERNAL_CONTENT_URI
+    private val queryUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 
     private val imagePaths = ArrayList<String>()
 
-    suspend fun getImages(context: Context): ArrayList<String>? {
+    fun getImages(context: Context): ArrayList<String>? {
         /**
          * contentResolver.query() is a method that allows you to perform a query on a ContentProvider, such as the MediaStore ContentProvider in this case.
          * The contentResolver.query() method returns a Cursor object that allows us to iterate over the results of the query.
@@ -66,7 +68,7 @@ class ImagesRepository {
 
         // close the cursor after use
         cursor?.close()
-
+        Log.d(TAG, "getImages: Images path -> ${imagePaths.size}")
         return if (imagePaths.size != 0)
             imagePaths
         else null
