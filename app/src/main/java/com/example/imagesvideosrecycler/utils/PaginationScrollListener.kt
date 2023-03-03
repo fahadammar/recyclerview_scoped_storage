@@ -16,26 +16,37 @@ abstract class PaginationScrollListener(private val layoutManager: GridLayoutMan
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
 
-        val totalItemCount = layoutManager.itemCount
-        val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+        var totalItemCount = layoutManager.itemCount
+        var lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+        var visibleItemCount = layoutManager.childCount
 
         Log.d(TAG, "onScrolled: total item count --> $totalItemCount")
         Log.d(TAG, "onScrolled: last Visible Item Position --> $lastVisibleItemPosition")
 
-        if (totalItemCount < previousTotalItemCount) {
+        /*if (totalItemCount < previousTotalItemCount) {
             resetState()
-        }
+        }*/
 
-        if (loading && totalItemCount > previousTotalItemCount) {
+        /*if (loading && totalItemCount > previousTotalItemCount) {
             loading = false
             previousTotalItemCount = totalItemCount
-        }
+        }*/
 
-        if (!loading && lastVisibleItemPosition + visibleThreshold > totalItemCount) {
+        /*if (!loading && lastVisibleItemPosition + visibleThreshold > totalItemCount) {
             Log.d(TAG, "onScrolled: before load more --> totalItemCount: $totalItemCount")
             onLoadMore(totalItemCount)
             loading = true
+        }*/
+
+        if(loading){
+            if((visibleItemCount + lastVisibleItemPosition) >= totalItemCount) {
+                loading = false
+                onLoadMore(totalItemCount)
+                loading = true
+            }
         }
+
+
     }
 
     private fun resetState() {

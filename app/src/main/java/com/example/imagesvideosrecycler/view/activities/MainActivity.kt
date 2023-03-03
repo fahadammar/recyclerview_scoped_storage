@@ -53,8 +53,7 @@ class MainActivity : AppCompatActivity() {
             override fun onLoadMore(totalItemCount: Int) {
                 // checkItemsToGet(viewModel)
                 tempArrayList =
-                    viewModel.getImages().take(totalItemCount) as ArrayList<Uri>
-                Log.d(TAG, "onLoadMore: Temp Array List Size --> ${tempArrayList.size}")
+                    viewModel.getImages().take(checkItemsToGet(viewModel)) as ArrayList<Uri>
                 adapter.images.addAll(tempArrayList)
                 adapter.notifyDataSetChanged()
             }
